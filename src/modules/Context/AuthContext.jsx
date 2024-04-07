@@ -2,12 +2,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from "react";
-import { AuthLogin, AuthLogout, AuthRegister, getToken, setToken } from "../Config/Api.js";
+import { AuthLogin, AuthLogout, AuthRegister, deleteAdmin, deleteToken, getAdmin, getToken, setAdmin, setToken } from "../Config/Api.js";
 import Swal from "sweetalert2";
 
 
 const InitContext = createContext({
     isLoggedin: false,
+    isAdmin: null,
     doLogin: () => {},
     doRegister: () => {},
     doLogout: () => {},
@@ -19,26 +20,44 @@ const useAuth = () => {
 
 const AuthProvider = ({children}) => {
     const [isLoggedin,setIsLoggedIn] = useState(false);
-
+    const [isAdmin,setIsAdmin] = useState(null);
     useEffect(() => {
         const token = getToken();
+        const adminId = getAdmin();
         if(token !== null){
             setIsLoggedIn(true);
+            if(adminId > 0){
+                setIsAdmin(adminId);
+            }else{
+                setIsAdmin(0);
+            }
         }
     },[]);
 
     const doLogin = async (name,pass,setValue) => {
         const data = await AuthLogin(name,pass);
         if(data.status === 200){
-        setIsLoggedIn(true);
-        setToken(data.data.message.Token);
-        setValue(); 
-        return Swal.fire({
+        const adminId = data.data.message.User.is_admin;
+        Swal.fire({
             title: 'Login Berhasil',
             icon: 'success',
             showConfirmButton:false,
             timer:1000
         });
+
+        return setTimeout(() => {
+            setIsLoggedIn(true); 
+        if(adminId > 0){
+            setAdmin(adminId);
+            setIsAdmin(adminId)
+        }else{
+            setIsAdmin(adminId)
+            setAdmin(adminId);
+        }
+        setToken(data.data.message.Token);
+        setValue(); 
+        },1000);
+
         }
         const {username = [], password = []} = data.data;
         const error = [...username,...password];
@@ -56,13 +75,28 @@ const AuthProvider = ({children}) => {
     }
 
     const doLogout = async () => {
-        const data = await AuthLogout(isLoggedin);
-        console.log(data);
+        const token = getToken();
+        const data = await AuthLogout(token);
+        if(data.status === 200){
+            Swal.fire({
+                title: "Berhasil Logout",
+                icon: 'success',
+                showConfirmButton:false,
+                timer:1000
+            });    
+            
+            setTimeout(() => {
+                setIsLoggedIn(false);
+                deleteToken();
+                deleteAdmin();
+            },1000);
+        }
     }
 
     return(
         <InitContext.Provider value={{
             isLoggedin,
+            isAdmin,
             doLogin,
             doRegister,
             doLogout,

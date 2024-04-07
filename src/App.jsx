@@ -4,19 +4,25 @@ import Login from './modules/Auth/Login'
 import { useAuth } from './modules/Context/AuthContext'
 import AuthLayout from './modules/Layouts/AuthLayout'
 import Register from './modules/Auth/Register'
+import NavbarLayout from './modules/Layouts/NavbarLayout'
 
 
 function App() {
-  const { isLoggedin } = useAuth();
+  const { isLoggedin,isAdmin} = useAuth();
   return (
     <>
       <BrowserRouter>
         <Routes>
           {isLoggedin ?
-            <Route>
-              <Route path='main' element={<h1 className=' h-[100vh] grid place-items-center text-[white] font-bold text-[5rem]'>Hello World</h1>} />
-              <Route path='*' element={<Navigate to={'/main'} />} />
-            </Route> 
+            isAdmin > 0 ? 
+            <Route element={<NavbarLayout/>}>
+              <Route path='admin' element={<h1 className='h1 text-[5rem]'>ADMIN</h1>}/>
+              <Route path='*' element={<Navigate to={"/admin"}/>}/>
+            </Route> :
+              <Route element={<NavbarLayout/>}>
+                <Route path='user' element={<h1 className='h1 text-[5rem]'>USER</h1>}/>
+                <Route path='*' element={<Navigate to={"/user"}/>}/>
+          </Route>
             :
             <Route element={<AuthLayout/>}>
               <Route path='login' element={<Login />} />

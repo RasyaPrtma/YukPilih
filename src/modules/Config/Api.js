@@ -13,6 +13,24 @@ const getToken = () => {
     return Cookies.get('session_token') ?? null;
 }
 
+const deleteToken = () => {
+    Cookies.remove('session_token');
+}
+
+// setAdmin 
+
+const setAdmin = (id) => {
+    Cookies.set('ID_ADMIN',id,{expires: 1,secure:true,Priority:'High'});
+}
+
+const getAdmin = () => {
+    return Cookies.get('ID_ADMIN') ?? null;
+}
+
+const deleteAdmin = () => {
+    Cookies.remove('ID_ADMIN');
+}
+
 
 // Api Poll
 
@@ -120,7 +138,7 @@ const AuthRegister = async (username,password,password_confirm,role,divisions) =
 }
 
 const AuthLogout = async (token) =>{
-    const ApiAuth = await axios.delete((HTTP_URL + 'auth/logout'),{
+    const ApiAuth = await axios.post((HTTP_URL + 'auth/logout'),{},{
         headers:{
             Authorization:`Bearer ${token}`
         }
@@ -134,4 +152,4 @@ const AuthLogout = async (token) =>{
     return ApiAuth
 }
 
-export {ApiFetchPoll,ApiAddPoll,ApiUpdatePoll,ApiDeletePoll,AuthLogin,AuthRegister,AuthLogout,getToken,setToken};
+export {ApiFetchPoll,ApiAddPoll,ApiUpdatePoll,ApiDeletePoll,AuthLogin,AuthRegister,AuthLogout,getToken,setToken,setAdmin,getAdmin,deleteToken,deleteAdmin};

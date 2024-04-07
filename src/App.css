@@ -34,3 +34,10 @@
     border-radius: 10px;
     background: rgb(68, 68, 68);
 }
+
+.h1{
+    color: white;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
