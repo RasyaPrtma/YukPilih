@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useLocation } from 'react-router-dom';
@@ -56,4 +57,4 @@ export default function ResultVoteById() {
             </div>
         </>
     );
-}
+}c
