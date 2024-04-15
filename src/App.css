@@ -17,7 +17,7 @@
 }
 
 .input{
-    width: 300px;
+    width: 305px;
     padding-left: 2rem;
     height: 25px;
     font-size: 14px;
@@ -35,9 +35,32 @@
     background: rgb(68, 68, 68);
 }
 
+.navbar{
+    position: fixed;
+    background: #f8f8f8;
+    color: #242424;
+    z-index: 99;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.navigation{
+    display: flex;
+    gap: 15px;
+    color: inherit;
+}
 .h1{
     color: white;
     display: grid;
     place-items: center;
     height: 100vh;
 }
+

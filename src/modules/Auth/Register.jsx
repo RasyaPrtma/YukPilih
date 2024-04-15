@@ -1,13 +1,26 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../Context/AuthContext";
 
 export default function Register(){
     const [name, setName] = useState("");
     const [pass, setPass] = useState("");
     const [passConfirm, setPassConfirm] = useState("");
+    const [role,setRole] = useState("");
+    const [divisions,setDivisions] = useState("");
+
+    const {doRegister} = useAuth();
+
+    const removeVal = () => {
+        setName("");
+        setPass("");
+        setPassConfirm("");
+        setRole("");
+        setDivisions("");
+    }
 
     const handleClick = () => {
-
+        doRegister(name,pass,passConfirm,role,divisions,removeVal);
     }
 
     const showPassword = () => {
@@ -55,14 +68,14 @@ export default function Register(){
                 <h3>Role</h3>
                 <div className="wrap">
                     <i className="fa-solid fa-id-badge"></i>
-                    <input type="text" className="input"/>
+                    <input value={role} onChange={(e) => setRole(e.target.value)} type="text" className="input"/>
                 </div>
             </div>
             <div className="divisions">
                 <h3>Divisions</h3>
                 <div className="wrap">
                 <i className="fa-solid fa-user-gear"></i>
-                <select className="input">
+                <select value={divisions} onChange={(e) => setDivisions(e.target.value)} className="input">
                     <option value="1">Web Developer</option>
                     <option value="2">BackEnd Developer</option>
                     <option value="3">CMS Developer</option>

@@ -69,15 +69,10 @@ const ApiAddPoll = async (title,description,deadline,choices,token) => {
     return ApiPoll
 };
 
-const ApiUpdatePoll = async (id,title,description,deadline,choices,token) =>{
-    const ApiPoll = await axios.patch((HTTP_URL + 'poll/' + id),{
-        title:title,
-        description:description,
-        deadline:deadline,
-        choices:choices
-    },{
+const ApiFetchPollById = async (id,token) =>{
+    const ApiPoll = await axios.get((HTTP_URL + `poll/${id}`),{
         headers:{
-            Authorization: `Bearer ${token}`,
+            Authorization:`Bearer ${token}`
         }
     })
     .then((response) => {
@@ -152,4 +147,4 @@ const AuthLogout = async (token) =>{
     return ApiAuth
 }
 
-export {ApiFetchPoll,ApiAddPoll,ApiUpdatePoll,ApiDeletePoll,AuthLogin,AuthRegister,AuthLogout,getToken,setToken,setAdmin,getAdmin,deleteToken,deleteAdmin};
+export {ApiFetchPoll,ApiAddPoll,ApiFetchPollById,ApiDeletePoll,AuthLogin,AuthRegister,AuthLogout,getToken,setToken,setAdmin,getAdmin,deleteToken,deleteAdmin};

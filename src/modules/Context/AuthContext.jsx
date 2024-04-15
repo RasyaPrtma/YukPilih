@@ -60,18 +60,52 @@ const AuthProvider = ({children}) => {
 
         }
         const {username = [], password = []} = data.data;
-        const error = [...username,...password];
+        const errors = [...username,...password];
+        if(data.status !== 404){
+            return Swal.fire({
+                title: errors.join("\n"),
+                icon: 'error',
+                showConfirmButton:false,
+                timer:1000
+            });
+        }
         return Swal.fire({
-            title: error.join("\n"),
+            title:  data.data,
             icon: 'error',
             showConfirmButton:false,
             timer:1000
         });
     }
 
-    const doRegister = async (username,password,password_confirm,role,divisions) => {
-        const data = await AuthRegister(username,password,password_confirm,role,divisions);
-        console.log(data);
+    const doRegister = async (name,pass,password_confirm,roles,division,removeVal) => {
+        const data = await AuthRegister(name,pass,password_confirm,roles,division);
+        if(data.status === 201){
+            Swal.fire({
+                title:"Berhasil Registrasi Silahkan Login",
+                icon:'success',
+                showConfirmButton:false,
+                timer:1000,
+            }); 
+           return setTimeout(() => {
+                removeVal()
+            },1000);
+        }
+        if(data.status !== 401){
+            return Swal.fire({
+                title:data.data.message.User,
+                icon:'error',
+                showConfirmButton:false,
+                timer:1000,
+            }); 
+        }
+        const {username = [],password = [], role = [], divisions = []} = data.data;
+        const error = [...username,...password,...role,...divisions]
+        return Swal.fire({
+            title: error.join("\n"),
+            icon:'error',
+            showConfirmButton:false,
+            timer:2000
+        });
     }
 
     const doLogout = async () => {

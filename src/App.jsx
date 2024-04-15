@@ -5,6 +5,10 @@ import { useAuth } from './modules/Context/AuthContext'
 import AuthLayout from './modules/Layouts/AuthLayout'
 import Register from './modules/Auth/Register'
 import NavbarLayout from './modules/Layouts/NavbarLayout'
+import Poll from './modules/Admin/Poll'
+import { PollProvider } from './modules/Context/PollContext'
+import ResultVote from './modules/Admin/Layouts/ResultVote'
+import ResultVoteById from './modules/Admin/Layouts/ResultVoteById'
 
 
 function App() {
@@ -15,12 +19,16 @@ function App() {
         <Routes>
           {isLoggedin ?
             isAdmin > 0 ? 
-            <Route element={<NavbarLayout/>}>
-              <Route path='admin' element={<h1 className='h1 text-[5rem]'>ADMIN</h1>}/>
-              <Route path='*' element={<Navigate to={"/admin"}/>}/>
+            <Route element={<PollProvider><NavbarLayout/></PollProvider>}>
+              <Route path='poll' element={<Poll/>}/>
+              <Route path='vote/result' element={<ResultVote/>}/>
+              <Route path='/vote/result/search' element={<ResultVoteById/>}/>
+              <Route path='*' element={<Navigate to={"/poll"}/>}/>
             </Route> :
               <Route element={<NavbarLayout/>}>
                 <Route path='user' element={<h1 className='h1 text-[5rem]'>USER</h1>}/>
+                <Route path='vote' element={<h1 className='h1 text-[5rem]'>VOTE</h1>}/>
+                <Route path='vote/result' element={<h1 className='h1 text-[5rem]'>RESULT VOTE USER</h1>}/>
                 <Route path='*' element={<Navigate to={"/user"}/>}/>
           </Route>
             :
