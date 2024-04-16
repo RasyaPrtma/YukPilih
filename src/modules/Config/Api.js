@@ -35,7 +35,7 @@ const deleteAdmin = () => {
 // Api Poll
 
 const ApiFetchPoll = async (token) => {
-    const ApiPoll = await axios.get((HTTP_URL + 'poll'),{
+    const ApiPoll = await axios.get((HTTP_URL + 'poll'),{   
         headers:{
             Authorization:`Bearer ${token}`,
         }
@@ -99,6 +99,21 @@ const ApiDeletePoll = async (id,token) => {
     return ApiPoll
 }
 
+const ApiVote = async (poll_id,choice_id,token) =>{
+    const ApiPoll = await axios.post((HTTP_URL + 'poll/' + poll_id + '/vote/' + choice_id),{},{
+        headers:{
+            Authorization: `Bearer ${token}`,
+        }
+    })
+    .then((response) => {
+        return response
+    })
+    .catch((error) => {
+        return error.response
+    })
+    return ApiPoll
+}
+
 // Api Authentication
 
 const AuthLogin = async (username,password) =>{
@@ -147,4 +162,4 @@ const AuthLogout = async (token) =>{
     return ApiAuth
 }
 
-export {ApiFetchPoll,ApiAddPoll,ApiFetchPollById,ApiDeletePoll,AuthLogin,AuthRegister,AuthLogout,getToken,setToken,setAdmin,getAdmin,deleteToken,deleteAdmin};
+export {ApiFetchPoll,ApiAddPoll,ApiFetchPollById,ApiDeletePoll,AuthLogin,AuthRegister,AuthLogout,getToken,setToken,setAdmin,getAdmin,deleteToken,deleteAdmin,ApiVote};

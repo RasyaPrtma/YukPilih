@@ -26,25 +26,25 @@ export default function AddPoll(){
            <div className="name">
             <h3>Title</h3>
            <div className="wrap">
-                <input className="input pl-0" onChange={(e) => setTitle(e.target.value)} type="text"/>
+                <input value={title} className="input pl-0" onChange={(e) => setTitle(e.target.value)} type="text"/>
             </div>
            </div>
             <div className="password">
                 <h3>Description</h3>
                 <div className="wrap">
-                    <textarea className="outline-none font-[500] text-[14px]" cols="40" onChange={(e) => setDescription(e.target.value)} rows="5"></textarea>
+                    <textarea value={description} className="outline-none font-[500] text-[14px]" cols="40" onChange={(e) => setDescription(e.target.value)} rows="5"></textarea>
             </div>
             </div>
             <div className="password">
                 <h3>Deadline</h3>
                 <div className="wrap">
-                    <input className="input pl-0" onChange={(e) => setDeadline(e.target.value)} type="datetime-local"/>
+                    <input value={deadline} className="input pl-0" onChange={(e) => setDeadline(e.target.value)} type="datetime-local"/>
             </div>
             </div>
             <div className="password">
                 <h3>Choices</h3>
                 <div className="wrap">
-                    <textarea  className="outline-none font-[500] text-[14px]" onChange={(e) => setChoice(e.target.value)}  cols="40" rows="5"></textarea>
+                    <textarea value={choice} className="outline-none font-[500] text-[14px]" onChange={(e) => setChoice(e.target.value)}  cols="40" rows="5"></textarea>
             </div>
             </div>
             <button className="btn" onClick={handleClick}>Create</button>

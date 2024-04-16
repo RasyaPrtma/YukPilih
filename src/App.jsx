@@ -9,6 +9,8 @@ import Poll from './modules/Admin/Poll'
 import { PollProvider } from './modules/Context/PollContext'
 import ResultVote from './modules/Admin/Layouts/ResultVote'
 import ResultVoteById from './modules/Admin/Layouts/ResultVoteById'
+import UserResult from './modules/Users/Layouts/UserResult'
+import UserVote from './modules/Users/Layouts/UserVote'
 
 
 function App() {
@@ -25,11 +27,10 @@ function App() {
               <Route path='/vote/result/search' element={<ResultVoteById/>}/>
               <Route path='*' element={<Navigate to={"/poll"}/>}/>
             </Route> :
-              <Route element={<NavbarLayout/>}>
-                <Route path='user' element={<h1 className='h1 text-[5rem]'>USER</h1>}/>
-                <Route path='vote' element={<h1 className='h1 text-[5rem]'>VOTE</h1>}/>
-                <Route path='vote/result' element={<h1 className='h1 text-[5rem]'>RESULT VOTE USER</h1>}/>
-                <Route path='*' element={<Navigate to={"/user"}/>}/>
+              <Route element={<PollProvider><NavbarLayout/></PollProvider>}>
+                <Route path='vote' element={<UserVote/>}/>
+                <Route path='vote/result' element={<UserResult/>}/>
+                <Route path='*' element={<Navigate to={"/vote"}/>}/>
           </Route>
             :
             <Route element={<AuthLayout/>}>
